@@ -1,0 +1,306 @@
+@import 'tailwindcss';
+
+/**
+ * Tailwind CSS v4 Theme Configuration
+ * Admin Dashboard Health System
+ * 
+ * Design tokens extraídos da UI do Admin Login Panel
+ */
+
+@theme {
+  /* ============================================
+	   COLOR SYSTEM
+	   ============================================ */
+
+  /* Surface Colors - Backgrounds */
+  --color-surface: #f8f9fa;
+  --color-surface-raised: #ffffff;
+  --color-surface-hover: #f1f3f5;
+
+  /* Primary - Blue (botão "Sign in" e links) */
+  --color-primary: #2f8af5;
+  --color-primary-hover: #1c7ae8;
+  --color-primary-foreground: #ffffff;
+
+  /* Secondary - Subtle backgrounds */
+  --color-secondary: #f1f5f9;
+  --color-secondary-hover: #e2e8f0;
+  --color-secondary-foreground: #1e293b;
+
+  /* Muted - Disabled states and subtle elements */
+  --color-muted: #f8fafc;
+  --color-muted-hover: #f1f5f9;
+  --color-muted-foreground: #94a3b8;
+
+  /* Destructive - Error states */
+  --color-destructive: #ef4444;
+  --color-destructive-hover: #dc2626;
+  --color-destructive-foreground: #ffffff;
+
+  /* Foreground - Text colors */
+  --color-foreground: #0f172a;
+  --color-foreground-subtle: #64748b;
+  --color-foreground-muted: #94a3b8;
+
+  /* Border - Inputs and dividers */
+  --color-border: #e2e8f0;
+  --color-border-hover: #cbd5e1;
+  --color-input: #e5e7eb;
+
+  /* Focus Ring */
+  --color-ring: #2f8af5;
+  --color-ring-offset: #ffffff;
+
+  /* Success */
+  --color-success: #10b981;
+  --color-success-hover: #059669;
+  --color-success-foreground: #ffffff;
+
+  /* Warning */
+  --color-warning: #f59e0b;
+  --color-warning-hover: #d97706;
+  --color-warning-foreground: #ffffff;
+
+  /* Info */
+  --color-info: #3b82f6;
+  --color-info-hover: #2563eb;
+  --color-info-foreground: #ffffff;
+
+  /* ============================================
+	   SPACING SCALE
+	   ============================================ */
+
+  --spacing-0: 0;
+  --spacing-px: 1px;
+  --spacing-0\.5: 0.125rem; /* 2px */
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-1\.5: 0.375rem; /* 6px */
+  --spacing-2: 0.5rem; /* 8px */
+  --spacing-2\.5: 0.625rem; /* 10px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-3\.5: 0.875rem; /* 14px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-7: 1.75rem; /* 28px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-9: 2.25rem; /* 36px */
+  --spacing-10: 2.5rem; /* 40px */
+  --spacing-11: 2.75rem; /* 44px */
+  --spacing-12: 3rem; /* 48px */
+  --spacing-14: 3.5rem; /* 56px */
+  --spacing-16: 4rem; /* 64px */
+  --spacing-20: 5rem; /* 80px */
+  --spacing-24: 6rem; /* 96px */
+
+  /* ============================================
+	   BORDER RADIUS
+	   ============================================ */
+
+  --radius-none: 0;
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-DEFAULT: 0.375rem; /* 6px */
+  --radius-md: 0.5rem; /* 8px */
+  --radius-lg: 0.75rem; /* 12px - inputs e botões */
+  --radius-xl: 1rem; /* 16px - cards */
+  --radius-2xl: 1.5rem; /* 24px */
+  --radius-3xl: 2rem; /* 32px */
+  --radius-full: 9999px;
+
+  /* ============================================
+	   TYPOGRAPHY
+	   ============================================ */
+
+  /* Font Families */
+  --font-sans:
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-mono:
+    ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas,
+    'DejaVu Sans Mono', monospace;
+
+  /* Font Sizes */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px - labels, hints */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px - card titles */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem; /* 36px */
+
+  /* Line Heights */
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ============================================
+	   SHADOWS
+	   ============================================ */
+
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-DEFAULT:
+    0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-md:
+    0 6px 16px -4px rgb(0 0 0 / 0.1), 0 4px 8px -4px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 24px -6px rgb(0 0 0 / 0.1), 0 8px 16px -8px rgb(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 32px -8px rgb(0 0 0 / 0.15), 0 12px 24px -12px rgb(0 0 0 / 0.15);
+  --shadow-2xl: 0 24px 48px -12px rgb(0 0 0 / 0.25);
+
+  /* ============================================
+	   TRANSITIONS
+	   ============================================ */
+
+  --transition-DEFAULT: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-colors:
+    color, background-color, border-color, text-decoration-color, fill,
+    stroke 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-opacity: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-transform: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ============================================
+	   Z-INDEX SCALE
+	   ============================================ */
+
+  --z-index-0: 0;
+  --z-index-10: 10;
+  --z-index-20: 20;
+  --z-index-30: 30;
+  --z-index-40: 40;
+  --z-index-50: 50;
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    /* Surface Colors */
+    --color-surface: #0f172a;
+    --color-surface-raised: #1e293b;
+    --color-surface-hover: #334155;
+
+    /* Primary */
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    --color-primary-foreground: #ffffff;
+
+    /* Secondary */
+    --color-secondary: #1e293b;
+    --color-secondary-hover: #334155;
+    --color-secondary-foreground: #f1f5f9;
+
+    /* Muted */
+    --color-muted: #1e293b;
+    --color-muted-hover: #334155;
+    --color-muted-foreground: #94a3b8;
+
+    /* Destructive */
+    --color-destructive: #ef4444;
+    --color-destructive-hover: #dc2626;
+    --color-destructive-foreground: #ffffff;
+
+    /* Foreground */
+    --color-foreground: #f1f5f9;
+    --color-foreground-subtle: #cbd5e1;
+    --color-foreground-muted: #94a3b8;
+
+    /* Border */
+    --color-border: #334155;
+    --color-border-hover: #475569;
+    --color-input: #334155;
+
+    /* Focus Ring */
+    --color-ring: #3b82f6;
+    --color-ring-offset: #0f172a;
+
+    /* Success */
+    --color-success: #10b981;
+    --color-success-hover: #059669;
+    --color-success-foreground: #ffffff;
+
+    /* Warning */
+    --color-warning: #f59e0b;
+    --color-warning-hover: #d97706;
+    --color-warning-foreground: #0f172a;
+
+    /* Info */
+    --color-info: #3b82f6;
+    --color-info-hover: #2563eb;
+    --color-info-foreground: #ffffff;
+  }
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-surface text-foreground;
+    font-feature-settings:
+      'rlig' 1,
+      'calt' 1;
+    font-family: var(--font-sans);
+  }
+
+  /* Focus visible outline */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-ring-offset;
+  }
+}
+
+/* ============================================
+   CUSTOM UTILITIES
+   ============================================ */
+
+@layer utilities {
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Prevent text selection */
+  .select-none {
+    user-select: none;
+  }
+
+  /* Smooth scrolling */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
