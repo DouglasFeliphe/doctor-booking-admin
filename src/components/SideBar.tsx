@@ -5,14 +5,23 @@ import {
   UserRound,
   Settings,
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 const navItems = [
-  { icon: LayoutDashboard, label: 'Dashboard', active: false },
-  { icon: Calendar, label: 'Appointments', active: false },
-  { icon: Users, label: 'Patients', active: true },
-  { icon: UserRound, label: 'Doctors', active: false },
-  { icon: Settings, label: 'Settings', active: false },
+  {
+    icon: LayoutDashboard,
+    label: 'Dashboard',
+    link: '/dashboard',
+  },
+  {
+    icon: Calendar,
+    label: 'Appointments',
+    link: '/appointments',
+  },
+  { icon: Users, label: 'Patients', link: '/patients' },
+  { icon: UserRound, label: 'Doctors', link: '/doctors' },
+  { icon: Settings, label: 'Settings', link: '/settings' },
 ];
 
 export function Sidebar() {
@@ -27,19 +36,17 @@ export function Sidebar() {
 
       <nav className="flex flex-col gap-1">
         {navItems.map((item) => (
-          <a
+          <Link
+            to={item.link}
+            id={`nav-item-${item.label.toLowerCase()}`}
             key={item.label}
-            href="#"
             className={twMerge(
-              'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
-              item.active
-                ? 'bg-blue-50 text-primary'
-                : 'text-foreground-subtle hover:bg-muted hover:text-foreground',
+              'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors target:bg-blue-50 focus:bg-blue-50 focus:text-primary',
             )}
           >
             <item.icon className="size-5" />
             {item.label}
-          </a>
+          </Link>
         ))}
       </nav>
     </aside>
