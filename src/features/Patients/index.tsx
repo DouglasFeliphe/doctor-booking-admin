@@ -1,7 +1,9 @@
-import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 // import { Button } from './button';
 import { Tabs } from '@base-ui/react/tabs';
+import { useState } from 'react';
 import { Button } from '../../components/button';
+import SearchInput from '../../components/SearchInput';
 import { StatusBadge } from './components/StatusBadge';
 
 interface Patient {
@@ -17,30 +19,48 @@ const patients: Patient[] = [
     id: '1',
     name: 'Sarah Jenkins',
     email: 'sarah.j@example.com',
-    avatar: 'https://i.pravatar.cc/300/123',
+    avatar: 'https://i.pravatar.cc/300?u=a042581f4e29026704d',
     status: 'active',
   },
   {
     id: '2',
     name: 'Michael Chen',
     email: 'm.chen88@gmail.com',
-    avatar: 'https://i.pravatar.cc/300/124',
+    avatar: 'https://i.pravatar.cc/300?u=a042581f4e29026704e',
     status: 'blocked',
   },
   // ... outros pacientes
 ];
 
 export function Patients() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState('all');
+
+  function handleSearch(query: string) {
+    setSearchQuery(query);
+  }
+
+  function handleChangeTab(tab: string) {
+    setActiveTab(tab);
+  }
+
+  const filteredPatients = patients.filter((patient) => {
+    const matchesSearch =
+      patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      patient.email.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesTab = activeTab === 'all' || patient.status === activeTab;
+
+    return matchesSearch && matchesTab;
+  });
+
   return (
     <div data-slot="patient-container" className="flex flex-col gap-6">
-      <div className="relative">
-        <Search className="text-muted-foreground absolute top-1/2 left-4 size-4 -translate-y-1/2" />
-        <input
-          type="text"
-          placeholder="Search patients by name or email"
-          className="bg-surface border-border focus-visible:ring-ring w-full rounded-xl border py-3 pr-4 pl-11 text-sm outline-none focus-visible:ring-2"
-        />
-      </div>
+      <SearchInput
+        placeholder="Search patients by name or email"
+        value={searchQuery}
+        onChange={handleSearch}
+      />
 
       <Tabs.Root defaultValue="all" className="flex flex-col gap-4">
         <Tabs.List className="border-border flex gap-8 border-b">
@@ -49,6 +69,7 @@ export function Patients() {
               key={tab}
               value={tab.toLowerCase().split(' ')[0]}
               className="text-foreground-subtle data-[selected]:border-primary data-[selected]:text-primary cursor-pointer border-b-2 border-transparent py-2 text-sm font-medium transition-colors outline-none"
+              onClick={() => handleChangeTab(tab.toLowerCase().split(' ')[0])}
             >
               {tab}
             </Tabs.Tab>
@@ -65,7 +86,7 @@ export function Patients() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {patients.map((patient) => (
+              {filteredPatients.map((patient) => (
                 <tr
                   key={patient.id}
                   className="hover:bg-muted/30 transition-colors"
@@ -113,7 +134,8 @@ export function Patients() {
 
           <div className="border-border flex items-center justify-between border-t px-6 py-4">
             <span className="text-foreground-subtle text-sm">
-              Showing <b>1 - 5</b> of <b>248</b> patients
+              Showing <b>1 - {filteredPatients.length}</b> of{' '}
+              <b>{filteredPatients.length}</b> patients
             </span>
             <div className="flex items-center gap-2">
               <Button variant="secondary" size="sm" aria-label="Previous page">
