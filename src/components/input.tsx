@@ -15,6 +15,7 @@ const inputVariants = tv({
     variant: {
       default: 'border-input text-foreground',
       filled: 'border-transparent bg-muted text-foreground',
+      destructive: 'border-destructive text-destructive',
     },
     size: {
       sm: 'h-9 text-xs',
@@ -33,7 +34,7 @@ export interface InputProps
     Omit<ComponentProps<'input'>, 'size'>,
     VariantProps<typeof inputVariants> {
   label?: string;
-  error?: boolean;
+  error?: boolean | string;
 }
 
 export function Input({
@@ -58,11 +59,16 @@ export function Input({
       <input
         data-slot="input"
         data-disabled={disabled ? '' : undefined}
-        data-error={error ? '' : undefined}
+        data-error={error}
         className={twMerge(inputVariants({ variant, size }), className)}
         disabled={disabled}
         {...props}
       />
+      {error && (
+        <>
+          <p className="mt-2 text-xs text-destructive">{error}</p>
+        </>
+      )}
     </>
   );
 }
