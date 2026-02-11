@@ -1,8 +1,8 @@
 import { twMerge } from 'tailwind-merge';
 import { Eye, Lock } from 'lucide-react';
 import type { ComponentProps } from 'react';
-import { Button } from './button';
-import { Input } from './input';
+import { Button } from '../../components/button';
+import { Input } from '../../components/input';
 
 export interface LoginFormProps extends ComponentProps<'div'> {}
 
@@ -100,6 +100,7 @@ const PasswordField = () => {
         id="password"
         type="password"
         placeholder="••••••••"
+        error="Incorrect password"
       />
     </div>
   );

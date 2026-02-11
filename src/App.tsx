@@ -1,10 +1,9 @@
-import '../theme.css';
-import { LoginForm } from './components/admin-login-form';
+import { AppRoutes } from './routes';
 
 function App() {
   return (
     <>
-      <LoginForm />
+      <AppRoutes />
     </>
   );
 }
