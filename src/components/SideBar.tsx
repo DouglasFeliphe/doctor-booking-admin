@@ -13,17 +13,17 @@ const navItems = [
     icon: LayoutDashboard,
     label: 'Dashboard',
     link: '/dashboard',
-    active: true,
+    default: true,
   },
   {
     icon: Calendar,
     label: 'Appointments',
     link: '/appointments',
-    active: false,
+    default: false,
   },
-  { icon: Users, label: 'Patients', link: '/patients', active: false },
-  { icon: UserRound, label: 'Doctors', link: '/doctors', active: false },
-  { icon: Settings, label: 'Settings', link: '/settings', active: false },
+  { icon: Users, label: 'Patients', link: '/patients', default: false },
+  { icon: UserRound, label: 'Doctors', link: '/doctors', default: false },
+  { icon: Settings, label: 'Settings', link: '/settings', default: false },
 ];
 
 export function Sidebar() {
