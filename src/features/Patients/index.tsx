@@ -2,9 +2,9 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 // import { Button } from './button';
 import { Tabs } from '@base-ui/react/tabs';
 import { useState } from 'react';
-import { Button } from '../../components/button';
-import SearchInput from '../../components/SearchInput';
-import { StatusBadge } from './components/StatusBadge';
+import { Button } from '@/components/button';
+import SearchInput from '@/components/SearchInput';
+import { StatusBadge } from '@/components/StatusBadge';
 
 interface Patient {
   id: string;

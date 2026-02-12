@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Dashboard from '../features/Dashboard';
-import { LoginForm } from '../features/SignIn/admin-login-form';
-import DashboardLayout from '../layout/DashboardLayout';
-import { Patients } from '../features/Patients';
+import Dashboard from '@/features/Dashboard';
+import { LoginForm } from '@/features/SignIn/admin-login-form';
+import DashboardLayout from '@/layout/DashboardLayout';
+import { Patients } from '@/features/Patients';
+import { Doctors } from '@/features/Doctors';
 
 export const AppRoutes = () => {
   const isAuthenticated = true; // Replace with actual authentication logic
