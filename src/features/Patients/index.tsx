@@ -1,18 +1,12 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-// import { Button } from './button';
-import { Tabs } from '@base-ui/react/tabs';
-import { useState } from 'react';
 import { Button } from '@/components/button';
+import { DataTable, type Column } from '@/components/DataTable';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
-
-interface Patient {
-  id: string;
-  name: string;
-  email: string;
-  avatar: string;
-  status: 'active' | 'blocked';
-}
+import { Tabs } from '@base-ui/react/tabs';
+import { useState } from 'react';
+import { PatientQuickView } from './components/PatientQuickView';
+import type { Patient } from './types/patient.types';
+import { Avatar } from '@/components/Avatar';
 
 const patients: Patient[] = [
   {
@@ -20,16 +14,77 @@ const patients: Patient[] = [
     name: 'Sarah Jenkins',
     email: 'sarah.j@example.com',
     avatar: 'https://i.pravatar.cc/300?u=a042581f4e29026704d',
+    phone: '+1 (555) 012-3456',
     status: 'active',
+    totalVisits: 12,
+    lastInternalNote:
+      'Patient requested female doctor for next visit - Oct 28, 2023',
+    missedAppointments: 1,
+    lastVisitDate: 'Oct 24, 2023',
+    isVerified: false,
   },
   {
     id: '2',
     name: 'Michael Chen',
     email: 'm.chen88@gmail.com',
     avatar: 'https://i.pravatar.cc/300?u=a042581f4e29026704e',
+    phone: '+1 (555) 987-6543',
     status: 'blocked',
+    totalVisits: 5,
+    lastInternalNote:
+      'Patient has a history of missing appointments - Sep 10, 2023',
+    missedAppointments: 3,
+    lastVisitDate: 'Sep 15, 2023',
+    isVerified: true,
   },
-  // ... outros pacientes
+  {
+    id: '3',
+    name: 'Emily Davis',
+    email: 'emily.davis@example.com',
+    avatar: 'https://i.pravatar.cc/300?u=a042581f4e29026704f',
+    phone: '+1 (555) 456-7890',
+    status: 'active',
+    totalVisits: 8,
+    lastInternalNote:
+      'Patient is a new patient and has not yet been seen by a doctor.',
+    missedAppointments: 0,
+    lastVisitDate: 'Nov 1, 2023',
+    isVerified: false,
+  },
+];
+
+const dataTableColumns: Column<Patient>[] = [
+  {
+    header: 'Name',
+    accessor: (patient) => (
+      <Avatar>
+        <Avatar.Img src={patient.avatar} alt={patient.name} />
+        <Avatar.Container>
+          <Avatar.Name>{patient.name}</Avatar.Name>
+          <Avatar.Description>{patient.email}</Avatar.Description>
+        </Avatar.Container>
+      </Avatar>
+    ),
+  },
+  {
+    header: 'Status',
+    accessor: (patient) => (
+      <StatusBadge status={patient.status}>{patient.status}</StatusBadge>
+    ),
+  },
+  {
+    header: 'Actions',
+    align: 'right',
+    accessor: (patient) => (
+      <div className="flex items-center gap-2 justify-end">
+        <PatientQuickView data={patient} />
+
+        <Button variant="outline" size="sm">
+          {patient.status === 'active' ? 'Block' : 'Unblock'}
+        </Button>
+      </div>
+    ),
+  },
 ];
 
 export function Patients() {
@@ -61,7 +116,6 @@ export function Patients() {
         value={searchQuery}
         onChange={handleSearch}
       />
-
       <Tabs.Root defaultValue="all" className="flex flex-col gap-4">
         <Tabs.List className="border-border flex gap-8 border-b">
           {['All Patients', 'Active', 'Blocked'].map((tab) => (
@@ -76,83 +130,11 @@ export function Patients() {
           ))}
         </Tabs.List>
 
-        <div className="overflow-hidden rounded-xl border border-border bg-surface">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-muted/50 text-foreground-subtle border-b border-border text-xs font-semibold uppercase tracking-wider">
-              <tr>
-                <th className="px-6 py-4">Patient Details</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border">
-              {filteredPatients.map((patient) => (
-                <tr
-                  key={patient.id}
-                  className="hover:bg-muted/30 transition-colors"
-                >
-                  <td className="flex items-center gap-3 px-6 py-4">
-                    <img
-                      src={patient.avatar}
-                      alt=""
-                      className="size-10 rounded-full object-cover"
-                    />
-                    <div className="flex flex-col">
-                      <span className="font-semibold text-foreground">
-                        {patient.name}
-                      </span>
-                      <span className="text-foreground-subtle text-xs">
-                        {patient.email}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <StatusBadge status={patient.status}>
-                      {patient.status.charAt(0).toUpperCase() +
-                        patient.status.slice(1)}
-                    </StatusBadge>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm">
-                        View
-                      </Button>
-                      <Button
-                        variant={
-                          patient.status === 'active' ? 'secondary' : 'primary'
-                        }
-                        size="sm"
-                      >
-                        {patient.status === 'active' ? 'Block' : 'Unblock'}
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <div className="border-border flex items-center justify-between border-t px-6 py-4">
-            <span className="text-foreground-subtle text-sm">
-              Showing <b>1 - {filteredPatients.length}</b> of{' '}
-              <b>{filteredPatients.length}</b> patients
-            </span>
-            <div className="flex items-center gap-2">
-              <Button variant="secondary" size="sm" aria-label="Previous page">
-                <ChevronLeft />
-              </Button>
-              <Button variant="primary" size="sm">
-                1
-              </Button>
-              <Button variant="secondary" size="sm">
-                2
-              </Button>
-              <Button variant="secondary" size="sm" aria-label="Next page">
-                <ChevronRight />
-              </Button>
-            </div>
-          </div>
-        </div>
+        <DataTable
+          columns={dataTableColumns}
+          data={filteredPatients}
+          keyExtractor={(item) => item.id}
+        />
       </Tabs.Root>
     </div>
   );

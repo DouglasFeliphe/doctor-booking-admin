@@ -3,6 +3,7 @@ import { DataTable, type Column } from '@/components/DataTable';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
 import { Button } from '@/components/button';
+import { Avatar } from '@/components/Avatar';
 
 interface Doctor {
   id: string;
@@ -41,41 +42,39 @@ const doctors: Doctor[] = [
 const columnsForDataTable: Column<Doctor>[] = [
   {
     header: 'Doctor',
-    accessor: (p) => (
-      <div className="flex items-center gap-3">
-        <img
-          src={p.avatar}
-          alt=""
-          className="size-10 rounded-full object-cover"
-        />
-        <div className="flex flex-col">
-          <span className="font-semibold text-foreground">{p.name}</span>
-          <span className="text-foreground-subtle text-xs">{p.id}</span>
-        </div>
-      </div>
+    accessor: (doctor) => (
+      <Avatar>
+        <Avatar.Img src={doctor.avatar} alt={doctor.name} />
+        <Avatar.Container>
+          <Avatar.Name>{doctor.name}</Avatar.Name>
+          <Avatar.Description>{doctor.id}</Avatar.Description>
+        </Avatar.Container>
+      </Avatar>
     ),
   },
   {
     header: 'Specialty',
-    accessor: (p) => p.specialty,
+    accessor: (doctor) => doctor.specialty,
   },
   {
     header: 'Status',
-    accessor: (p) => <StatusBadge status={p.status}>{p.status}</StatusBadge>,
+    accessor: (doctor) => (
+      <StatusBadge status={doctor.status}>{doctor.status}</StatusBadge>
+    ),
   },
   {
     header: 'Actions',
     align: 'right',
-    accessor: (p) => (
+    accessor: (doctor) => (
       <div className="flex justify-end gap-2">
         <Button variant="outline" size="sm">
           View
         </Button>
         <Button
-          variant={p.status === 'active' ? 'secondary' : 'primary'}
+          variant={doctor.status === 'active' ? 'secondary' : 'primary'}
           size="sm"
         >
-          {p.status === 'active' ? 'Block' : 'Unblock'}
+          {doctor.status === 'active' ? 'Block' : 'Unblock'}
         </Button>
       </div>
     ),
