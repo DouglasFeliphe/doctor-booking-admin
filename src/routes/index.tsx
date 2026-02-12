@@ -20,7 +20,9 @@ export const AppRoutes = () => {
             <Route path="/" element={<DashboardLayout />}>
               <Route path="/dashboard" index element={<Dashboard />} />
               <Route path="/patients" element={<Patients />} />
-              <Route path="*" index element={<h1>Page Not Found</h1>} />
+              <Route path="/doctors" element={<Doctors />} />
+              <Route
+path="*" index element={<h1>Page Not Found</h1>} />
             </Route>
           </Routes>
         )}
