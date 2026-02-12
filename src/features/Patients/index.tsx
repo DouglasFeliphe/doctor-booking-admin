@@ -1,12 +1,13 @@
+import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/button';
 import { DataTable, type Column } from '@/components/DataTable';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
+import { useConfirm } from '@/context/modalConfirmContext';
 import { Tabs } from '@base-ui/react/tabs';
 import { useState } from 'react';
 import { PatientQuickView } from './components/PatientQuickView';
 import type { Patient } from './types/patient.types';
-import { Avatar } from '@/components/Avatar';
 
 const patients: Patient[] = [
   {
@@ -53,43 +54,11 @@ const patients: Patient[] = [
   },
 ];
 
-const dataTableColumns: Column<Patient>[] = [
-  {
-    header: 'Name',
-    accessor: (patient) => (
-      <Avatar>
-        <Avatar.Img src={patient.avatar} alt={patient.name} />
-        <Avatar.Container>
-          <Avatar.Name>{patient.name}</Avatar.Name>
-          <Avatar.Description>{patient.email}</Avatar.Description>
-        </Avatar.Container>
-      </Avatar>
-    ),
-  },
-  {
-    header: 'Status',
-    accessor: (patient) => (
-      <StatusBadge status={patient.status}>{patient.status}</StatusBadge>
-    ),
-  },
-  {
-    header: 'Actions',
-    align: 'right',
-    accessor: (patient) => (
-      <div className="flex items-center gap-2 justify-end">
-        <PatientQuickView data={patient} />
-
-        <Button variant="outline" size="sm">
-          {patient.status === 'active' ? 'Block' : 'Unblock'}
-        </Button>
-      </div>
-    ),
-  },
-];
-
 export function Patients() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('all');
+
+  const { confirm } = useConfirm();
 
   function handleSearch(query: string) {
     setSearchQuery(query);
@@ -98,6 +67,58 @@ export function Patients() {
   function handleChangeTab(tab: string) {
     setActiveTab(tab);
   }
+
+  const handleBlockClick = (patient: Patient) => {
+    confirm({
+      title: 'Block Patient',
+      description:
+        'Are you sure you want to block this patient? This action cannot be undone.',
+      confirmText: 'Yes, Block Patient',
+      cancelText: 'No, Keep Appointment',
+      onConfirm: () => {
+        console.log(`Blocking patient ${patient.name}...`);
+        // Lógica de bloqueio aqui
+      },
+    });
+  };
+
+  const dataTableColumns: Column<Patient>[] = [
+    {
+      header: 'Name',
+      accessor: (patient) => (
+        <Avatar>
+          <Avatar.Img src={patient.avatar} alt={patient.name} />
+          <Avatar.Container>
+            <Avatar.Name>{patient.name}</Avatar.Name>
+            <Avatar.Description>{patient.email}</Avatar.Description>
+          </Avatar.Container>
+        </Avatar>
+      ),
+    },
+    {
+      header: 'Status',
+      accessor: (patient) => (
+        <StatusBadge status={patient.status}>{patient.status}</StatusBadge>
+      ),
+    },
+    {
+      header: 'Actions',
+      align: 'right',
+      accessor: (patient) => (
+        <div className="flex items-center gap-2 justify-end">
+          <PatientQuickView data={patient} />
+
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => handleBlockClick(patient)}
+          >
+            {patient.status === 'active' ? 'Block' : 'Unblock'}
+          </Button>
+        </div>
+      ),
+    },
+  ];
 
   const filteredPatients = patients.filter((patient) => {
     const matchesSearch =
