@@ -22,7 +22,10 @@ export const AppRoutes = () => {
               <Route path="/patients" element={<Patients />} />
               <Route path="/doctors" element={<Doctors />} />
               <Route
-path="*" index element={<h1>Page Not Found</h1>} />
+                path="*"
+                index
+                element={<h1 className="text-red">Página em construção</h1>}
+              />
             </Route>
           </Routes>
         )}
