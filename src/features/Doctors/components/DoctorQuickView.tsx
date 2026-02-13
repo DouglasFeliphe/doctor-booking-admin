@@ -66,8 +66,11 @@ export function DoctorQuickView({ doctor }: DoctorQuickViewProps) {
     email,
     phone,
     weeklySchedule,
+    scheduleType,
     status,
   } = doctor;
+
+  // function o
 
   return (
     <DialogRoot>
@@ -181,12 +184,14 @@ export function DoctorQuickView({ doctor }: DoctorQuickViewProps) {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <span className="rounded bg-blue-50 px-2 py-1 text-[10px] font-bold text-primary uppercase">
-                    Telehealth
-                  </span>
-                  <span className="rounded bg-blue-50 px-2 py-1 text-[10px] font-bold text-primary uppercase">
-                    In-Person
-                  </span>
+                  {scheduleType.map((type, index) => (
+                    <span
+                      key={index}
+                      className="rounded bg-blue-50 px-2 py-1 text-[10px] font-bold text-primary uppercase"
+                    >
+                      {type}
+                    </span>
+                  ))}
                 </div>
               </div>
               <div className="size-14 rounded-xl bg-teal-500 flex items-center justify-center text-white shadow-lg shadow-teal-500/20">
