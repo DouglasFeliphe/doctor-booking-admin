@@ -6,6 +6,7 @@ import { Button } from '@/components/button';
 import { Avatar } from '@/components/Avatar';
 import { DoctorQuickView } from './components/DoctorQuickView';
 import type { Doctor } from './types/doctor.types';
+import { useConfirm } from '@/context/modalConfirmContext';
 
 const doctors: Doctor[] = [
   {
@@ -84,64 +85,87 @@ const doctors: Doctor[] = [
   },
 ];
 
-// Definição das colunas para o componente genérico
-const columnsForDataTable: Column<Doctor>[] = [
-  {
-    header: 'Doctor',
-    accessor: (doctor) => (
-      <Avatar>
-        <Avatar.Img src={doctor.avatar} alt={doctor.name} />
-        <Avatar.Container>
-          <Avatar.Name>{doctor.name}</Avatar.Name>
-          <Avatar.Description>{doctor.license}</Avatar.Description>
-        </Avatar.Container>
-      </Avatar>
-    ),
-  },
-  {
-    header: 'Specialty',
-    accessor: (doctor) => doctor.specialty,
-  },
-  {
-    header: 'Status',
-    accessor: (doctor) => (
-      <StatusBadge status={doctor.status}>{doctor.status}</StatusBadge>
-    ),
-  },
-  {
-    header: 'Actions',
-    align: 'right',
-    accessor: (doctor) => (
-      <div className="flex justify-end gap-2">
-        {/* <Button variant="outline" size="sm">
-          View
-        </Button> */}
+function renderActionText({ status }: Doctor) {
+  const actionText: Record<typeof status, string> = {
+    active: 'Deactivate',
+    pending: 'Approve',
+    inactive: 'Activate',
+  };
 
-        <DoctorQuickView
-          doctor={doctor}
-          open={false}
-          onOpenChange={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-        />
-
-        <Button
-          variant={doctor.status === 'active' ? 'secondary' : 'primary'}
-          size="sm"
-        >
-          {doctor.status === 'active' ? 'Block' : 'Unblock'}
-        </Button>
-      </div>
-    ),
-  },
-];
+  return actionText[status];
+}
 
 export function Doctors() {
   const [searchQuery, setSearchQuery] = useState('');
+  const { confirm } = useConfirm();
 
   function handleSearch(query: string) {
     setSearchQuery(query);
   }
+
+  function handleStatusChange(doctor: Doctor) {
+    confirm({
+      title: `${renderActionText(doctor)} Doctor ${doctor.name}`,
+      description: `Are you sure you want to ${renderActionText(doctor).toLowerCase()} doctor ${doctor.name}?`,
+      confirmText: `${renderActionText(doctor)} Doctor`,
+      cancelText: '',
+      onConfirm: () => {
+        console.log('Confirmed change status for:', doctor.name);
+      },
+    });
+  }
+
+  const columnsForDataTable: Column<Doctor>[] = [
+    {
+      header: 'Doctor',
+      accessor: (doctor) => (
+        <Avatar>
+          <Avatar.Img src={doctor.avatar} alt={doctor.name} />
+          <Avatar.Container>
+            <Avatar.Name>{doctor.name}</Avatar.Name>
+            <Avatar.Description>{doctor.license}</Avatar.Description>
+          </Avatar.Container>
+        </Avatar>
+      ),
+    },
+    {
+      header: 'Specialty',
+      accessor: (doctor) => doctor.specialty,
+    },
+    {
+      header: 'Status',
+      accessor: (doctor) => (
+        <StatusBadge status={doctor.status}>{doctor.status}</StatusBadge>
+      ),
+    },
+    {
+      header: 'Actions',
+      align: 'right',
+      accessor: (doctor) => (
+        <div className="flex justify-end gap-2">
+          {/* <Button variant="outline" size="sm">
+          View
+        </Button> */}
+
+          <DoctorQuickView
+            doctor={doctor}
+            open={false}
+            onOpenChange={function (): void {
+              throw new Error('Function not implemented.');
+            }}
+          />
+
+          <Button
+            variant={doctor.status === 'active' ? 'secondary' : 'primary'}
+            size="sm"
+            onClick={() => handleStatusChange(doctor)}
+          >
+            {renderActionText(doctor)}
+          </Button>
+        </div>
+      ),
+    },
+  ];
 
   const filteredDoctors = doctors.filter((doctor) => {
     const matchesSearch =
