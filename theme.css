@@ -7,7 +7,9 @@
  * Design tokens extraídos da UI do Admin Login Panel
  */
 
-@theme {
+/* @theme  */
+:root,
+[data-theme='light'] {
   /* ============================================
 	   COLOR SYSTEM
 	   ============================================ */
@@ -193,7 +195,67 @@
    DARK MODE
    ============================================ */
 
+/* Opção 1: Dark mode automático (preferência do sistema) */
 @media (prefers-color-scheme: dark) {
+  [data-theme='dark'] {
+    /* Surface Colors */
+    --color-surface: #0f172a;
+    --color-surface-raised: #1e293b;
+    --color-surface-hover: #334155;
+
+    /* Primary */
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    --color-primary-foreground: #ffffff;
+
+    /* Secondary */
+    --color-secondary: #1e293b;
+    --color-secondary-hover: #334155;
+    --color-secondary-foreground: #f1f5f9;
+
+    /* Muted */
+    --color-muted: #1e293b;
+    --color-muted-hover: #334155;
+    --color-muted-foreground: #94a3b8;
+
+    /* Destructive */
+    --color-destructive: #ef4444;
+    --color-destructive-hover: #dc2626;
+    --color-destructive-foreground: #ffffff;
+
+    /* Foreground */
+    --color-foreground: #f1f5f9;
+    --color-foreground-subtle: #cbd5e1;
+    --color-foreground-muted: #94a3b8;
+
+    /* Border */
+    --color-border: #334155;
+    --color-border-hover: #475569;
+    --color-input: #334155;
+
+    /* Focus Ring */
+    --color-ring: #3b82f6;
+    --color-ring-offset: #0f172a;
+
+    /* Success */
+    --color-success: #10b981;
+    --color-success-hover: #059669;
+    --color-success-foreground: #ffffff;
+
+    /* Warning */
+    --color-warning: #f59e0b;
+    --color-warning-hover: #d97706;
+    --color-warning-foreground: #0f172a;
+
+    /* Info */
+    --color-info: #3b82f6;
+    --color-info-hover: #2563eb;
+    --color-info-foreground: #ffffff;
+  }
+}
+
+/* Opção 2: Dark mode manual via data-theme="dark" */
+[data-theme='dark'] {
   @theme {
     /* Surface Colors */
     --color-surface: #0f172a;
@@ -257,20 +319,25 @@
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--color-border);
   }
 
   body {
-    @apply bg-surface text-foreground;
+    background-color: var(--color-surface);
+    color: var(--color-foreground);
     font-feature-settings:
       'rlig' 1,
       'calt' 1;
-    font-family: var(--font-sans);
+    font-family:
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 
   /* Focus visible outline */
   *:focus-visible {
-    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-ring-offset;
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
   }
 }
 
@@ -279,22 +346,18 @@
    ============================================ */
 
 @layer utilities {
-  /* Text balance for headings */
   .text-balance {
     text-wrap: balance;
   }
 
-  /* Prevent text selection */
   .select-none {
     user-select: none;
   }
 
-  /* Smooth scrolling */
   .scroll-smooth {
     scroll-behavior: smooth;
   }
 
-  /* Hide scrollbar */
   .scrollbar-none {
     scrollbar-width: none;
     -ms-overflow-style: none;

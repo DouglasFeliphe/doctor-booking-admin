@@ -1,12 +1,16 @@
+import { useTheme } from '@/context/themeContext';
 import {
   Calendar,
   LayoutDashboard,
+  Moon,
   Settings,
+  Sun,
   UserRound,
   Users,
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
+import { Button } from './button';
 
 const navItems = [
   {
@@ -29,6 +33,8 @@ const navItems = [
 export function Sidebar() {
   const currentPath = useLocation().pathname;
 
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <aside className="border-border flex h-screen w-64 flex-col border-r bg-surface p-4">
       <div className="mb-10 flex items-center gap-2 px-2 text-primary">
@@ -37,7 +43,7 @@ export function Sidebar() {
         </div>
         <span className="text-lg font-bold text-foreground">HealthAdmin</span>
       </div>
-
+      <div className="bg-"></div>
       <nav className="flex flex-col gap-1">
         {navItems.map((item) => (
           <Link
@@ -54,6 +60,14 @@ export function Sidebar() {
           </Link>
         ))}
       </nav>
+
+      <Button className="w-fit" variant="outline" onClick={toggleTheme}>
+        {theme === 'light' ? (
+          <Sun className="red" />
+        ) : (
+          <Moon className="rotate-180" />
+        )}
+      </Button>
     </aside>
   );
 }
