@@ -56,20 +56,22 @@ export function DataTable<T>({
               key={keyExtractor(item)}
               className="hover:bg-muted/30 transition-colors"
             >
-              {columns.map((column, idx) => (
-                <td
-                  key={idx}
-                  className={twMerge(
-                    'px-6 py-4',
-                    column.align === 'right' && 'text-right',
-                    column.align === 'center' && 'text-center',
-                  )}
-                >
-                  {typeof column.accessor === 'function'
-                    ? column.accessor(item)
-                    : (item[column.accessor] as ReactNode)}
-                </td>
-              ))}
+              {columns.map((column, index) => {
+                return (
+                  <td
+                    key={Math.random().toString() + index}
+                    className={twMerge(
+                      'px-6 py-4',
+                      column.align === 'right' && 'text-right',
+                      column.align === 'center' && 'text-center',
+                    )}
+                  >
+                    {typeof column.accessor === 'function'
+                      ? column.accessor(item)
+                      : (item[column.accessor] as ReactNode)}
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
