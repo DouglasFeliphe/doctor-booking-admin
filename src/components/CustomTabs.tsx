@@ -1,4 +1,4 @@
-import { useTab } from '@/context/tabContext';
+import { useTabContext } from '@/context/tabContext';
 import { Tabs } from '@base-ui/react';
 
 interface CustomTabsProps {
@@ -7,7 +7,7 @@ interface CustomTabsProps {
 }
 
 const CustomTabs = ({ tabOptions, defaultTab = 'all' }: CustomTabsProps) => {
-  const { handleChangeTab } = useTab();
+  const { handleChangeTab } = useTabContext();
 
   return (
     <Tabs.Root defaultValue={defaultTab} className="flex flex-col gap-4">

@@ -1,11 +1,11 @@
 import { Avatar } from '@/components/Avatar';
-import { Button } from '@/components/ui/button';
 import CustomTabs from '@/components/CustomTabs';
 import { DataTable, type Column } from '@/components/DataTable';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
+import { Button } from '@/components/ui/button';
 import { useConfirm } from '@/context/modalConfirmContext';
-import { useTab } from '@/context/tabContext';
+import { useTabContext } from '@/context/tabContext';
 import { useState } from 'react';
 import { PatientQuickView } from './components/PatientQuickView';
 import type { Patient } from './types/patient.types';
@@ -59,7 +59,7 @@ export function Patients() {
   const [searchQuery, setSearchQuery] = useState('');
   // const [isLoading, setIsLoading] = useState(false);
 
-  const { activeTab } = useTab();
+  const { activeTab } = useTabContext();
 
   const { confirm } = useConfirm();
 

@@ -5,7 +5,7 @@ import { FilterBar } from '@/components/FilterBar';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
 import { Button } from '@/components/ui/button';
-import { useTab } from '@/context/tabContext';
+import { useTabContext } from '@/context/tabContext';
 import { MapPin, Video } from 'lucide-react';
 import { useState } from 'react';
 import { PatientQuickView } from '../Patients/components/PatientQuickView';
@@ -56,7 +56,7 @@ const MOCK_APPOINTMENTS: Appointment[] = [
 ];
 
 export function Appointments() {
-  const { activeTab } = useTab();
+  const { activeTab } = useTabContext();
 
   const [searchQuery, setSearchQuery] = useState('');
 
