@@ -1,12 +1,16 @@
 @import '../theme.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* ============================================
    ROOT STYLES
    ============================================ */
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family:
+    'Apple System', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   line-height: 1.5;
+  font-size: 1.1rem;
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
