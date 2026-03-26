@@ -1,9 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Dashboard from '@/features/Dashboard';
 import { LoginForm } from '@/features/SignIn/admin-login-form';
 import DashboardLayout from '@/layout/DashboardLayout';
 import { Patients } from '@/features/Patients';
 import { Doctors } from '@/features/Doctors';
+import { Appointments } from '@/features/Appointments';
 
 export const AppRoutes = () => {
   const isAuthenticated = true; // Replace with actual authentication logic
@@ -18,7 +18,6 @@ export const AppRoutes = () => {
         ) : (
           <Routes>
             <Route path="/" element={<DashboardLayout />}>
-              <Route path="/dashboard" index element={<Dashboard />} />
               <Route path="/appointments" element={<Appointments />} />
               <Route path="/patients" element={<Patients />} />
               <Route path="/doctors" element={<Doctors />} />
