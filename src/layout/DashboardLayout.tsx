@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { Sidebar } from '@/components/SideBar';
+import { GlobalConfirmModal } from '@/components/GlobalConfirmModal';
 
 const DashboardLayout = () => {
   return (
@@ -11,9 +12,11 @@ const DashboardLayout = () => {
         <Header />
 
         <main data-slot="main-content" className="flex-1 overflow-y-auto p-8">
-          <div className="mx-auto max-w-7xl">
-            <Outlet />
-          </div>
+          {/* <div className="mx-auto max-w-7xl"> */}
+          <Outlet />
+
+          <GlobalConfirmModal />
+          {/* </div> */}
         </main>
       </div>
     </div>
