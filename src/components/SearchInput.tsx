@@ -1,29 +1,49 @@
 import { CircleX, Search } from 'lucide-react';
+import { useRef, type Ref } from 'react';
 
 interface SearchInputProps {
   placeholder?: string;
-  value?: string;
-  onChange?: (value: string) => void;
+  defaultValue?: string;
+  onSearch: (value: string) => void;
 }
 
-const SearchInput = ({ placeholder, value, onChange }: SearchInputProps) => {
+const SearchInput = ({
+  placeholder,
+  defaultValue,
+  onSearch,
+}: SearchInputProps) => {
+  const searchInputRef = useRef<Ref<HTMLInputElement>>(null);
+
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+    // Prevent the default form submission behavior
+    event.preventDefault();
+
+    // Access the current value of the input via the ref
+    const query = searchInputRef.current?.value ?? '';
+
+    // Pass the value to the search handler
+    onSearch(query);
+
+    console.log('Search initiated with:', query);
+  }
+
   return (
-    <div className="relative">
+    <form className="relative" onSubmit={(e) => handleSubmit(e)}>
       <Search className="text-muted-foreground absolute top-1/2 left-4 size-4 -translate-y-1/2" />
 
       <input
         type="text"
-        value={value}
-        placeholder={placeholder}
+        ref={searchInputRef}
+        placeholder={placeholder ?? 'Search...'}
+        defaultValue={defaultValue}
         className="bg-surface border-border focus-visible:ring-ring w-full rounded-xl border py-3 pr-4 pl-11 text-sm outline-none focus-visible:ring-2"
-        onChange={(e) => onChange?.(e.target.value)}
       />
 
       <CircleX
         className="text-muted-foreground absolute top-1/2 right-4 size-4 -translate-y-1/2 cursor-pointer"
-        onClick={() => onChange?.('')}
+        onClick={() => onSearch?.('')}
       />
-    </div>
+    </form>
   );
 };
 
