@@ -3,10 +3,16 @@ import {
   TriangleAlert,
   // CheckCircle2,
   ShieldCheck,
+  Eye,
 } from 'lucide-react';
-import { Button } from '@/components/button';
-import { DialogContent, DialogRoot, DialogTrigger } from '@/components/dialog';
+import { Button } from '@/components/Button';
+import {
+  DialogContent,
+  DialogRoot,
+  DialogTrigger,
+} from '@/components/DialogContent';
 import type { Patient } from '../types/patient.types';
+import { useConfirm } from '@/context/modalConfirmContext';
 
 interface PatientQuickViewProps {
   // You can pass patient data as props if needed
@@ -20,11 +26,32 @@ export function PatientQuickView({
   onClickSuspendPatientButton,
   onClickFullProfileButton,
 }: PatientQuickViewProps) {
+  const { confirm, close, state } = useConfirm();
+
+  function handleSuspendPatient() {
+    confirm({
+      title: 'Confirm Suspension',
+      description: 'Are you sure you want to suspend this patient?',
+      confirmText: 'Yes, Suspend Patient',
+      cancelText: 'No, Keep Active',
+      onConfirm: () => {
+        console.log('Suspending patient...');
+      },
+    });
+
+    onClickSuspendPatientButton?.();
+  }
+
+  // function handleViewFullProfile() {
+  //   onClickFullProfileButton?.();
+  // }
+
   return (
     <DialogRoot>
       <DialogTrigger>
         <Button variant="secondary" size="sm">
           View
+          <Eye className="size-4" />
         </Button>
       </DialogTrigger>
 
@@ -128,18 +155,18 @@ export function PatientQuickView({
 
         {/* Actions */}
         <div className="flex flex-col gap-3 pt-2">
-          <Button
+          {/* <Button
             variant="primary"
             className="w-full h-12 rounded-xl text-sm font-bold gap-2"
             onClick={onClickFullProfileButton}
           >
             View Full Profile
             <ExternalLink className="size-4" />
-          </Button>
+          </Button> */}
           <Button
             variant="ghost"
             className="w-full h-12 rounded-xl border border-destructive/20 text-destructive hover:bg-destructive/5 font-bold"
-            onClick={onClickSuspendPatientButton}
+            onClick={handleSuspendPatient}
           >
             Suspend Patient
           </Button>

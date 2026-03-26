@@ -9,5 +9,7 @@ export interface Patient {
   lastInternalNote?: string;
   missedAppointments?: number;
   isVerified?: boolean;
-  status: 'active' | 'blocked';
+  status: PatientStatusTypes;
 }
+
+export type PatientStatusTypes = 'active' | 'suspended' | 'pending';

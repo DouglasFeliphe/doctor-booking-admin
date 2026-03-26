@@ -1,10 +1,11 @@
 import { Avatar } from '@/components/Avatar';
-import { Button } from '@/components/button';
+import { Button } from '@/components/Button';
+import CustomTabs from '@/components/CustomTabs';
 import { DataTable, type Column } from '@/components/DataTable';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
 import { useConfirm } from '@/context/modalConfirmContext';
-import { Tabs } from '@base-ui/react/tabs';
+import { useTab } from '@/context/tabContext';
 import { useState } from 'react';
 import { PatientQuickView } from './components/PatientQuickView';
 import type { Patient } from './types/patient.types';
@@ -30,7 +31,7 @@ const patients: Patient[] = [
     email: 'm.chen88@gmail.com',
     avatar: 'https://i.pravatar.cc/300?u=a042581f4e29026704e',
     phone: '+1 (555) 987-6543',
-    status: 'blocked',
+    status: 'suspended',
     totalVisits: 5,
     lastInternalNote:
       'Patient has a history of missing appointments - Sep 10, 2023',
@@ -56,7 +57,9 @@ const patients: Patient[] = [
 
 export function Patients() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('all');
+  // const [isLoading, setIsLoading] = useState(false);
+
+  const { activeTab } = useTab();
 
   const { confirm } = useConfirm();
 
@@ -64,21 +67,24 @@ export function Patients() {
     setSearchQuery(query);
   }
 
-  function handleChangeTab(tab: string) {
-    setActiveTab(tab);
-  }
-
   const handleBlockClick = (patient: Patient) => {
     confirm({
-      title: 'Block Patient',
-      description:
-        'Are you sure you want to block this patient? This action cannot be undone.',
-      confirmText: 'Yes, Block Patient',
-      cancelText: 'No, Keep Appointment',
+      title: `${patient.status === 'active' ? 'Block' : 'Unblock'} Patient ${patient.name}?`,
+
+      description: `Are you sure you want to ${patient.status === 'active' ? 'block' : 'unblock'} this patient? This action cannot be undone.`,
+      confirmText: `Yes, ${patient.status === 'active' ? 'Block' : 'Unblock'} Patient`,
+      cancelText: 'No, Keep unchanged',
+      // isLoading: true,
       onConfirm: () => {
-        console.log(`Blocking patient ${patient.name}...`);
-        // Lógica de bloqueio aqui
+        console.log(
+          ` ${patient.status === 'active' ? 'blocking' : 'unblocking'} patient ${patient.name}...`,
+        );
+
+        new Promise((resolve) => setTimeout(resolve, 2000));
       },
+      // onBlock: () => {
+      //   // Lógica de bloqueio aqui
+      // },
     });
   };
 
@@ -105,12 +111,12 @@ export function Patients() {
       header: 'Actions',
       align: 'right',
       accessor: (patient) => (
-        <div className="flex items-center gap-2 justify-end">
+        <div className="flex justify-end gap-2">
           <PatientQuickView data={patient} />
 
           <Button
             size="sm"
-            variant="outline"
+            variant={'destructive'}
             onClick={() => handleBlockClick(patient)}
           >
             {patient.status === 'active' ? 'Block' : 'Unblock'}
@@ -134,29 +140,16 @@ export function Patients() {
     <div data-slot="patient-container" className="flex flex-col gap-6">
       <SearchInput
         placeholder="Search patients by name or email"
-        value={searchQuery}
-        onChange={handleSearch}
+        onSearch={handleSearch}
       />
-      <Tabs.Root defaultValue="all" className="flex flex-col gap-4">
-        <Tabs.List className="border-border flex gap-8 border-b">
-          {['All Patients', 'Active', 'Blocked'].map((tab) => (
-            <Tabs.Tab
-              key={tab}
-              value={tab.toLowerCase().split(' ')[0]}
-              className="text-foreground-subtle data-[selected]:border-primary data-[selected]:text-primary cursor-pointer border-b-2 border-transparent py-2 text-sm font-medium transition-colors outline-none"
-              onClick={() => handleChangeTab(tab.toLowerCase().split(' ')[0])}
-            >
-              {tab}
-            </Tabs.Tab>
-          ))}
-        </Tabs.List>
 
-        <DataTable
-          columns={dataTableColumns}
-          data={filteredPatients}
-          keyExtractor={(item) => item.id}
-        />
-      </Tabs.Root>
+      <CustomTabs tabOptions={['All', 'Active', 'Inactive', 'Suspended']} />
+
+      <DataTable
+        columns={dataTableColumns}
+        data={filteredPatients}
+        keyExtractor={(item) => item.id}
+      />
     </div>
   );
 }
