@@ -193,68 +193,9 @@
 
 /* ============================================
    DARK MODE
+   Toggle via data-theme="dark" attribute
    ============================================ */
 
-/* Opção 1: Dark mode automático (preferência do sistema) */
-@media (prefers-color-scheme: dark) {
-  [data-theme='dark'] {
-    /* Surface Colors */
-    --color-surface: #0f172a;
-    --color-surface-raised: #1e293b;
-    --color-surface-hover: #334155;
-
-    /* Primary */
-    --color-primary: #3b82f6;
-    --color-primary-hover: #2563eb;
-    --color-primary-foreground: #ffffff;
-
-    /* Secondary */
-    --color-secondary: #1e293b;
-    --color-secondary-hover: #334155;
-    --color-secondary-foreground: #f1f5f9;
-
-    /* Muted */
-    --color-muted: #1e293b;
-    --color-muted-hover: #334155;
-    --color-muted-foreground: #94a3b8;
-
-    /* Destructive */
-    --color-destructive: #ef4444;
-    --color-destructive-hover: #dc2626;
-    --color-destructive-foreground: #ffffff;
-
-    /* Foreground */
-    --color-foreground: #f1f5f9;
-    --color-foreground-subtle: #cbd5e1;
-    --color-foreground-muted: #94a3b8;
-
-    /* Border */
-    --color-border: #334155;
-    --color-border-hover: #475569;
-    --color-input: #334155;
-
-    /* Focus Ring */
-    --color-ring: #3b82f6;
-    --color-ring-offset: #0f172a;
-
-    /* Success */
-    --color-success: #10b981;
-    --color-success-hover: #059669;
-    --color-success-foreground: #ffffff;
-
-    /* Warning */
-    --color-warning: #f59e0b;
-    --color-warning-hover: #d97706;
-    --color-warning-foreground: #0f172a;
-
-    /* Info */
-    --color-info: #3b82f6;
-    --color-info-hover: #2563eb;
-    --color-info-foreground: #ffffff;
-  }
-}
-
-/* Opção 2: Dark mode manual via data-theme="dark" */
 [data-theme='dark'] {
   @theme {
     /* Surface Colors */
