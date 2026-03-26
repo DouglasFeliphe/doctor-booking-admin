@@ -1,8 +1,9 @@
-import { twMerge } from 'tailwind-merge';
-import { Eye, Lock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Lock } from 'lucide-react';
 import type { ComponentProps } from 'react';
-import { Button } from '../../components/button';
-import { Input } from '../../components/input';
+import { Link } from 'react-router-dom';
+import { twMerge } from 'tailwind-merge';
 
 export interface LoginFormProps extends ComponentProps<'div'> {}
 
@@ -110,15 +111,15 @@ const LoginActions = () => {
   return (
     <div data-slot="login-actions" className="flex w-full flex-col gap-4">
       <div className="flex justify-end">
-        <a
-          href="#"
+        <Link
+          to="#"
           className={twMerge(
             'text-sm font-medium text-primary transition-colors hover:text-primary/80',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:rounded',
           )}
         >
           Forgot password?
-        </a>
+        </Link>
       </div>
 
       <Button type="submit" size="lg">
