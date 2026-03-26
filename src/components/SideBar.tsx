@@ -61,7 +61,12 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <Button className="w-fit" variant="outline" onClick={toggleTheme}>
+      <Button
+        className="w-fit mt-auto"
+        variant="outline"
+        onClick={toggleTheme}
+        aria-label="toggle theme"
+      >
         {theme === 'light' ? (
           <Sun className="red" />
         ) : (
