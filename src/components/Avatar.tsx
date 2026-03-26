@@ -14,7 +14,7 @@ export const Avatar: AvatarProps = ({ children }) => (
 );
 
 Avatar.Img = ({ ...props }) => (
-  <img {...props} className="size-8 rounded-full" />
+  <img {...props} alt="avatar" className="size-8 rounded-full" />
 );
 
 Avatar.Container = ({ children }) => (

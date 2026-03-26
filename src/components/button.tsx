@@ -1,6 +1,7 @@
 import { tv, type VariantProps } from 'tailwind-variants';
 import { twMerge } from 'tailwind-merge';
 import type { ComponentProps } from 'react';
+import { LoaderCircle } from 'lucide-react';
 
 const buttonVariants = tv({
   base: [
@@ -34,7 +35,9 @@ const buttonVariants = tv({
 });
 
 export interface ButtonProps
-  extends ComponentProps<'button'>, VariantProps<typeof buttonVariants> {}
+  extends ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
+  isLoading?: boolean;
+}
 
 export function Button({
   className,
@@ -42,6 +45,7 @@ export function Button({
   size,
   disabled,
   children,
+  isLoading,
   type = 'button',
   ...props
 }: ButtonProps) {
@@ -54,7 +58,13 @@ export function Button({
       disabled={disabled}
       {...props}
     >
-      {children}
+      {isLoading ? (
+        <>
+          <LoaderCircle /> Loading...
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 }
