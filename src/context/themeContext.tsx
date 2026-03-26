@@ -1,5 +1,5 @@
-// src/context/ThemeContext.jsx
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 
 interface ThemeContextType {
   theme: ThemeTypes;
@@ -10,20 +10,12 @@ type ThemeTypes = 'light' | 'dark';
 
 const ThemeContext = createContext({} as ThemeContextType);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  // Initialize state based on localStorage or system preference
-  const [theme, setTheme] = useState<ThemeTypes>(
-    localStorage.theme ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light'),
-  );
+export function ThemeProvider({ children }: { children: ReactNode }) {
+  const [theme, setTheme] = useState<ThemeTypes>(getInitialTheme);
 
-  // Deve mostrar: #f8f9fa (light) ou #0f172a (dark)
   useEffect(() => {
-    // Update the <html> element data-theme attribute and localStorage whenever the theme changes
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.theme = theme;
+    localStorage.setItem('theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {
@@ -40,8 +32,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useTheme() {
-  if (!useContext(ThemeContext)) {
+  if (!useContext(ThemeContext).theme) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return useContext(ThemeContext);
+}
+
+// Helper function to get the initial theme based on localStorage or system preference
+function getInitialTheme(): ThemeTypes {
+  const saved = localStorage.getItem('theme');
+
+  if (saved === 'dark' || saved === 'light') return saved;
+
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
+  }
+
+  return 'light';
 }

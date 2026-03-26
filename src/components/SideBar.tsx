@@ -43,7 +43,6 @@ export function Sidebar() {
         </div>
         <span className="text-lg font-bold text-foreground">HealthAdmin</span>
       </div>
-      <div className="bg-"></div>
       <nav className="flex flex-col gap-1">
         {navItems.map((item) => (
           <Link
