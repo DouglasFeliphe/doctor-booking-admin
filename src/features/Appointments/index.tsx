@@ -7,9 +7,12 @@ import { StatusBadge } from '@/components/StatusBadge';
 import { Button } from '@/components/ui/button';
 import { useTabContext } from '@/context/tabContext';
 import { MapPin, Video } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PatientQuickView } from '../Patients/components/PatientQuickView';
-import type { Appointment } from './types/appointment.types';
+import type {
+  Appointment,
+  AppointmentStatusTypes,
+} from './types/appointment.types';
 
 const MOCK_APPOINTMENTS: Appointment[] = [
   {
@@ -55,8 +58,20 @@ const MOCK_APPOINTMENTS: Appointment[] = [
   // ... outros itens
 ];
 
+const defaultOptions: AppointmentStatusTypes[] = [
+  'cancelled',
+  'completed',
+  'scheduled',
+];
+
+const TAB_OPTIONS = ['all appointments', ...defaultOptions];
+
 export function Appointments() {
-  const { activeTab } = useTabContext();
+  const { activeTab, handleChangeTab } = useTabContext();
+
+  useEffect(() => {
+    handleChangeTab(TAB_OPTIONS[0]);
+  }, []);
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -64,7 +79,6 @@ export function Appointments() {
     date: 'today',
     status: 'all',
   });
-  console.log('activeFilters :', activeFilters);
 
   function handleSearch(query: string) {
     setSearchQuery(query);
@@ -201,7 +215,9 @@ export function Appointments() {
         .includes(searchQuery.toLowerCase()) ||
       appointment.status.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesTab = activeTab === 'all' || appointment.status === activeTab;
+    const matchesTab =
+      activeTab === TAB_OPTIONS[0] ||
+      appointment.status === activeTab.toLowerCase();
 
     const matchesDate = activeFilters['date'] === 'all' || true;
 
@@ -216,9 +232,7 @@ export function Appointments() {
           onSearch={handleSearch}
         />
 
-        <CustomTabs
-          tabOptions={['All', 'Scheduled', 'Completed', 'Cancelled']}
-        />
+        <CustomTabs options={TAB_OPTIONS} />
 
         <FilterBar
           filters={filters}

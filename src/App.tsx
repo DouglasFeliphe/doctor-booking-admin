@@ -1,4 +1,5 @@
 import { ConfirmProvider } from './context/modalConfirmContext';
+import { TabProvider } from './context/tabContext';
 import { ThemeProvider } from './context/themeContext';
 import { AppRoutes } from './routes';
 
@@ -6,7 +7,9 @@ function App() {
   return (
     <ThemeProvider>
       <ConfirmProvider>
-        <AppRoutes />
+        <TabProvider>
+          <AppRoutes />
+        </TabProvider>
       </ConfirmProvider>
     </ThemeProvider>
   );

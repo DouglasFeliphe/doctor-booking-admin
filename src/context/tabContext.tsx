@@ -1,5 +1,4 @@
-import React from 'react';
-import { createContext } from 'react';
+import React, { createContext } from 'react';
 
 type TabContextType = {
   activeTab: string;
@@ -11,7 +10,7 @@ export const TabContext = createContext<TabContextType | undefined>(undefined);
 export const TabProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [activeTab, setActiveTab] = React.useState('dashboard');
+  const [activeTab, setActiveTab] = React.useState<'All' | string>('All');
 
   const handleChangeTab = (tab: string) => {
     setActiveTab(tab);

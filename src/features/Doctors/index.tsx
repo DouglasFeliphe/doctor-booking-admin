@@ -3,12 +3,12 @@ import CustomTabs from '@/components/CustomTabs';
 import { DataTable, type Column } from '@/components/DataTable';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
+import { Button } from '@/components/ui/button';
 import { useConfirm } from '@/context/modalConfirmContext';
-import { useState } from 'react';
+import { useTabContext } from '@/context/tabContext';
+import { useEffect, useState } from 'react';
 import { DoctorQuickView } from './components/DoctorQuickView';
 import type { Doctor, DoctorStatusTypes } from './types/doctor.types';
-import { useTabContext } from '@/context/tabContext';
-import { Button } from '@/components/ui/button';
 
 const MOCK_DOCTORS: Doctor[] = [
   {
@@ -87,6 +87,10 @@ const MOCK_DOCTORS: Doctor[] = [
   },
 ];
 
+const defaultOptions: DoctorStatusTypes[] = ['active', 'pending', 'inactive'];
+
+const TAB_OPTIONS = ['all doctors', ...defaultOptions];
+
 const actionText: Record<DoctorStatusTypes, string> = {
   active: 'Deactivate',
   pending: 'Approve',
@@ -96,7 +100,11 @@ const actionText: Record<DoctorStatusTypes, string> = {
 export function Doctors() {
   const { confirm } = useConfirm();
 
-  const { activeTab } = useTabContext();
+  const { activeTab, handleChangeTab } = useTabContext();
+
+  useEffect(() => {
+    handleChangeTab(TAB_OPTIONS[0]);
+  }, []);
 
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -173,7 +181,8 @@ export function Doctors() {
       doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doctor.license.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesTab = activeTab === 'all' || doctor.status === activeTab;
+    const matchesTab =
+      activeTab === TAB_OPTIONS[0] || doctor.status === activeTab.toLowerCase();
 
     return matchesSearch && matchesTab;
   });
@@ -185,9 +194,7 @@ export function Doctors() {
         onSearch={handleSearch}
       />
 
-      <CustomTabs
-        tabOptions={['All Doctors', 'Active', 'Pending', 'Inactive']}
-      />
+      <CustomTabs options={TAB_OPTIONS} />
 
       <DataTable
         columns={columnsForDataTable}

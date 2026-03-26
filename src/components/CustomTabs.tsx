@@ -2,17 +2,16 @@ import { useTabContext } from '@/context/tabContext';
 import { Tabs } from '@base-ui/react';
 
 interface CustomTabsProps {
-  tabOptions: string[];
-  defaultTab?: string;
+  options: string[];
 }
 
-const CustomTabs = ({ tabOptions, defaultTab = 'all' }: CustomTabsProps) => {
+const CustomTabs = ({ options }: CustomTabsProps) => {
   const { handleChangeTab } = useTabContext();
 
   return (
-    <Tabs.Root defaultValue={defaultTab} className="flex flex-col gap-4">
+    <Tabs.Root defaultValue={options[0]} className="flex flex-col gap-4">
       <Tabs.List className="flex gap-8 border-b border-border">
-        {tabOptions?.map((tab) => {
+        {options?.map((tab) => {
           return (
             <Tabs.Tab
               key={new Date().getTime() + tab}

@@ -6,7 +6,7 @@ import { StatusBadge } from '@/components/StatusBadge';
 import { Button } from '@/components/ui/button';
 import { useConfirm } from '@/context/modalConfirmContext';
 import { useTabContext } from '@/context/tabContext';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PatientQuickView } from './components/PatientQuickView';
 import type { Patient } from './types/patient.types';
 
@@ -55,11 +55,17 @@ const patients: Patient[] = [
   },
 ];
 
+const TAB_OPTIONS = ['All patients', 'Active', 'Suspended', 'Inactive'];
+
 export function Patients() {
   const [searchQuery, setSearchQuery] = useState('');
   // const [isLoading, setIsLoading] = useState(false);
 
-  const { activeTab } = useTabContext();
+  const { activeTab, handleChangeTab } = useTabContext();
+
+  useEffect(() => {
+    handleChangeTab(TAB_OPTIONS[0]);
+  }, []);
 
   const { confirm } = useConfirm();
 
@@ -131,7 +137,9 @@ export function Patients() {
       patient.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       patient.email.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesTab = activeTab === 'all' || patient.status === activeTab;
+    const matchesTab =
+      activeTab === TAB_OPTIONS[0] ||
+      patient.status === activeTab.toLowerCase();
 
     return matchesSearch && matchesTab;
   });
@@ -143,7 +151,7 @@ export function Patients() {
         onSearch={handleSearch}
       />
 
-      <CustomTabs tabOptions={['All', 'Active', 'Inactive', 'Suspended']} />
+      <CustomTabs options={TAB_OPTIONS} />
 
       <DataTable
         columns={dataTableColumns}
