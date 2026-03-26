@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { ComponentProps, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { Button } from './Button';
+import { Button } from './ui/button';
 
 export interface Column<T> {
   header: string;

@@ -1,6 +1,11 @@
 import { ListFilter } from 'lucide-react';
-import { Button } from './Button';
-import { SelectContent, SelectItem, SelectRoot, SelectTrigger } from './Select';
+import { Button } from './ui/button';
+import {
+  SelectContent,
+  SelectItem,
+  SelectRoot,
+  SelectTrigger,
+} from './ui/Select';
 
 interface FilterOption {
   label: string;

@@ -3,12 +3,12 @@ import CustomTabs from '@/components/CustomTabs';
 import { DataTable, type Column } from '@/components/DataTable';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
-import { Button } from '@/components/Button';
 import { useConfirm } from '@/context/modalConfirmContext';
-import { useTab } from '@/context/tabContext';
 import { useState } from 'react';
 import { DoctorQuickView } from './components/DoctorQuickView';
 import type { Doctor, DoctorStatusTypes } from './types/doctor.types';
+import { useTabContext } from '@/context/tabContext';
+import { Button } from '@/components/ui/button';
 
 const MOCK_DOCTORS: Doctor[] = [
   {
@@ -96,7 +96,7 @@ const actionText: Record<DoctorStatusTypes, string> = {
 export function Doctors() {
   const { confirm } = useConfirm();
 
-  const { activeTab } = useTab();
+  const { activeTab } = useTabContext();
 
   const [searchQuery, setSearchQuery] = useState('');
 

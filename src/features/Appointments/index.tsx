@@ -4,7 +4,7 @@ import { DataTable, type Column } from '@/components/DataTable';
 import { FilterBar } from '@/components/FilterBar';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/ui/button';
 import { useTab } from '@/context/tabContext';
 import { MapPin, Video } from 'lucide-react';
 import { useState } from 'react';

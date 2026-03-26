@@ -1,6 +1,6 @@
 import { TriangleAlert } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
-import { Button } from './button';
+import { Button } from './ui/button';
 import { Dialog } from '@base-ui/react';
 import { useConfirm } from '@/context/modalConfirmContext';
 

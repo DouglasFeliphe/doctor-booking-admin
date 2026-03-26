@@ -1,5 +1,5 @@
 import { Avatar } from '@/components/Avatar';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/ui/button';
 import CustomTabs from '@/components/CustomTabs';
 import { DataTable, type Column } from '@/components/DataTable';
 import SearchInput from '@/components/SearchInput';

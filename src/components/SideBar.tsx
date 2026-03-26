@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
-import { Button } from './Button';
+import { Button } from './ui/button';
 
 const navItems = [
   {

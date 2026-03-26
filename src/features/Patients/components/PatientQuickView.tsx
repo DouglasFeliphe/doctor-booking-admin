@@ -5,7 +5,7 @@ import {
   ShieldCheck,
   Eye,
 } from 'lucide-react';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/ui/button';
 import {
   DialogContent,
   DialogRoot,

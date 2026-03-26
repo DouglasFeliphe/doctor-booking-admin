@@ -1,7 +1,7 @@
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { Input, type InputProps } from './Input';
+import { Input, type InputProps } from './ui/input';
 
 export interface PasswordInputProps extends Omit<InputProps, 'type'> {
   showToggle?: boolean;
