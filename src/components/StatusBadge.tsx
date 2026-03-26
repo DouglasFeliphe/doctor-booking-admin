@@ -7,9 +7,14 @@ const badgeVariants = tv({
   variants: {
     status: {
       active: 'bg-green-100 text-green-700',
-      blocked: 'bg-red-100 text-red-700',
+      suspended: 'bg-red-100 text-red-700',
       pending: 'bg-yellow-100 text-yellow-700',
       inactive: 'bg-gray-100 text-gray-700',
+      scheduled: 'bg-blue-100 text-blue-700',
+      completed: 'bg-green-100 text-green-700',
+      cancelled: 'bg-red-100 text-red-700',
+      paid: 'bg-green-100 text-green-700',
+      refunded: 'bg-red-100 text-red-700',
     },
   },
 });
