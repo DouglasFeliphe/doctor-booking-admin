@@ -1,11 +1,16 @@
-import { Button } from '@/components/button';
-import { DialogContent, DialogRoot, DialogTrigger } from '@/components/dialog';
+import { Button } from '@/components/Button';
+import {
+  DialogContent,
+  DialogRoot,
+  DialogTrigger,
+} from '@/components/DialogContent';
 import {
   Ban,
   Briefcase,
   Calendar,
   CheckCircle2,
   ClipboardClock,
+  Eye,
   GraduationCap,
   Languages,
   Mail,
@@ -77,6 +82,7 @@ export function DoctorQuickView({ doctor }: DoctorQuickViewProps) {
       <DialogTrigger>
         <Button variant="secondary" size="sm">
           View
+          <Eye className="h-4 w-4" />
         </Button>
       </DialogTrigger>
 

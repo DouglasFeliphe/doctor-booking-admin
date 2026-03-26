@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { Avatar } from '@/components/Avatar';
+import CustomTabs from '@/components/CustomTabs';
 import { DataTable, type Column } from '@/components/DataTable';
 import SearchInput from '@/components/SearchInput';
 import { StatusBadge } from '@/components/StatusBadge';
-import { Button } from '@/components/button';
-import { Avatar } from '@/components/Avatar';
-import { DoctorQuickView } from './components/DoctorQuickView';
-import type { Doctor } from './types/doctor.types';
+import { Button } from '@/components/Button';
 import { useConfirm } from '@/context/modalConfirmContext';
+import { useTab } from '@/context/tabContext';
+import { useState } from 'react';
+import { DoctorQuickView } from './components/DoctorQuickView';
+import type { Doctor, DoctorStatusTypes } from './types/doctor.types';
 
-const doctors: Doctor[] = [
+const MOCK_DOCTORS: Doctor[] = [
   {
     license: '#DOC-001',
     name: 'Sarah Jenkins',
@@ -66,7 +68,7 @@ const doctors: Doctor[] = [
   },
 
   {
-    license: '#DOC-003',
+    license: '#DOC-004',
     name: 'John Doe',
     avatar: 'https://i.pravatar.cc/300?u=a042581f4e29026704g',
     specialty: 'Neurology',
@@ -85,19 +87,18 @@ const doctors: Doctor[] = [
   },
 ];
 
-function renderActionText({ status }: Doctor) {
-  const actionText: Record<typeof status, string> = {
-    active: 'Deactivate',
-    pending: 'Approve',
-    inactive: 'Activate',
-  };
-
-  return actionText[status];
-}
+const actionText: Record<DoctorStatusTypes, string> = {
+  active: 'Deactivate',
+  pending: 'Approve',
+  inactive: 'Activate',
+};
 
 export function Doctors() {
-  const [searchQuery, setSearchQuery] = useState('');
   const { confirm } = useConfirm();
+
+  const { activeTab } = useTab();
+
+  const [searchQuery, setSearchQuery] = useState('');
 
   function handleSearch(query: string) {
     setSearchQuery(query);
@@ -105,9 +106,9 @@ export function Doctors() {
 
   function handleStatusChange(doctor: Doctor) {
     confirm({
-      title: `${renderActionText(doctor)} Doctor ${doctor.name}`,
-      description: `Are you sure you want to ${renderActionText(doctor).toLowerCase()} doctor ${doctor.name}?`,
-      confirmText: `${renderActionText(doctor)} Doctor`,
+      title: `${actionText[doctor.status]} Doctor ${doctor.name}`,
+      description: `Are you sure you want to ${actionText[doctor.status].toLowerCase()} doctor ${doctor.name}?`,
+      confirmText: `${actionText[doctor.status]} Doctor`,
       cancelText: '',
       onConfirm: () => {
         console.log('Confirmed change status for:', doctor.name);
@@ -160,27 +161,32 @@ export function Doctors() {
             size="sm"
             onClick={() => handleStatusChange(doctor)}
           >
-            {renderActionText(doctor)}
+            {actionText[doctor.status]}
           </Button>
         </div>
       ),
     },
   ];
 
-  const filteredDoctors = doctors.filter((doctor) => {
+  const filteredDoctors = MOCK_DOCTORS.filter((doctor) => {
     const matchesSearch =
       doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       doctor.license.toLowerCase().includes(searchQuery.toLowerCase());
 
-    return matchesSearch;
+    const matchesTab = activeTab === 'all' || doctor.status === activeTab;
+
+    return matchesSearch && matchesTab;
   });
 
   return (
     <div data-slot="patient-container" className="flex flex-col gap-6">
       <SearchInput
         placeholder="Search doctors by name or id"
-        value={searchQuery}
-        onChange={handleSearch}
+        onSearch={handleSearch}
+      />
+
+      <CustomTabs
+        tabOptions={['All Doctors', 'Active', 'Pending', 'Inactive']}
       />
 
       <DataTable

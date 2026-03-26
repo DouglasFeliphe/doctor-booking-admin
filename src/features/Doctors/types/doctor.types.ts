@@ -15,7 +15,9 @@ export interface Doctor {
     endTime: string;
   }[];
   scheduleType: ScheduleTypes[];
-  status: 'active' | 'pending' | 'inactive';
+  status: DoctorStatusTypes;
 }
+
+export type DoctorStatusTypes = 'active' | 'pending' | 'inactive';
 
 type ScheduleTypes = 'telehealth' | 'in-person';
